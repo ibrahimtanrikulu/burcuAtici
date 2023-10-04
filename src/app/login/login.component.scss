@@ -1,0 +1,17 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 60vh;
+    width: 100vw;
+}
+
+.content {
+    width: 40%;
+    height: 60%;
+}
+.button-end {
+    width: 100%;
+    display: flex;
+    justify-content: end;
+}
