@@ -1,0 +1,115 @@
+<p-card header="Hizmet">
+    <p-table [value]="hizmetKategori" dataKey="id" [tableStyle]="{ 'min-width': '60rem' }">
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <span class="p-input-icon-left ml-auto">
+                    <button pButton pRipple class="p-button-success"
+                        (click)="this.hizmetkategoriShow = !this.hizmetkategoriShow;">Hizmet Kategori
+                        ekle</button>
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 5rem"></th>
+                <th pSortableColumn="id">id <p-sortIcon field="id"></p-sortIcon></th>
+                <th pSortableColumn="hizmetKategoriAdi">Hizmet Kategori Ad <p-sortIcon
+                        field="hizmetKategoriAdi"></p-sortIcon></th>
+                <th style="width: 4rem"></th>
+                <th style="width: 4rem"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-hizmet let-expanded="expanded">
+            <tr>
+                <td>
+                    <button type="button" pButton pRipple [pRowToggler]="hizmet"
+                        class="p-button-text p-button-rounded p-button-plain"
+                        [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                </td>
+                <td>{{ hizmet.id }}</td>
+                <td>{{ hizmet.hizmetKategoriAdi }}</td>
+                <td><button pButton pRipple class="p-button-primary" icon="pi pi-pencil"
+                        (click)="hizmetKategoriEdit(hizmet)"></button></td>
+                <td><button pButton pRipple class="p-button-danger" icon="pi pi-times"></button></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-hizmet>
+            <tr>
+                <td colspan="7">
+                    <div class="p-3">
+                        <p-table [value]="hizmet.hizmetler" dataKey="id">
+                            <ng-template pTemplate="caption">
+                                <div class="flex">
+                                    <span class="p-input-icon-left ml-auto">
+                                        <button pButton pRipple class="p-button-success"
+                                            (click)="this.hizmetShow = !this.hizmetShow;kategoriID=hizmet.id">Hizmet
+                                            ekle</button>
+                                    </span>
+                                </div>
+                            </ng-template>
+                            <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="id">id <p-sortIcon field="price"></p-sortIcon></th>
+                <th pSortableColumn="hizmetAdi">Hizmet Adı <p-sortIcon field="customer"></p-sortIcon></th>
+                <th style="width: 4rem"></th>
+                <th style="width: 4rem"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-hizmet>
+            <tr>
+                <td>{{ hizmet.id }}</td>
+                <td>{{ hizmet.hizmetAdi }}</td>
+                <td><button pButton pRipple class="p-button-primary" icon="pi pi-pencil"
+                        (click)="hizmetEdit(hizmet)"></button></td>
+                <td><button pButton pRipple class="p-button-danger" icon="pi pi-times"></button></td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="6">Hizmet Bulunamadı</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    </div>
+    </td>
+    </tr>
+    </ng-template>
+    </p-table>
+</p-card>
+
+<app-dialog [header]="'Hizmet Kategorisi işlemleri'" [show]="hizmetkategoriShow">
+    <p-card>
+        <form [formGroup]="HizmetKategoriForm">
+            <div class="grid">
+                <div class="col-12 md:col-12">
+                    <span class="p-float-label">
+                        <input pInputText id="hizmetKategori" formControlName="hizmetKategoriAdi" />
+                        <label htmlFor="hizmetKategori">Hizmet Kategorisi</label>
+                    </span>
+                </div>
+            </div>
+            <div style="display: flex;width: 100%;justify-content: flex-end;">
+                <button pButton pRipple class="p-button-success" (click)="hizmetKategoriAdd()">kaydet</button>
+            </div>
+        </form>
+    </p-card>
+
+</app-dialog>
+
+<app-dialog [header]="'Hizmet işlemleri'" [show]="hizmetShow">
+    <p-card>
+        <form [formGroup]="HizmetForm">
+            <div class="grid">
+                <div class="col-12 md:col-12">
+                    <span class="p-float-label">
+                        <input pInputText id="hizmet" formControlName="hizmetAdi"/>
+                        <label htmlFor="hizmet">Hizmet</label>
+                    </span>
+                </div>
+            </div>
+            <div style="display: flex;width: 100%;justify-content: flex-end;">
+                <button pButton pRipple class="p-button-success" (click)="hizmetAdd()">kaydet</button>
+            </div>
+        </form>
+    </p-card>
+</app-dialog>

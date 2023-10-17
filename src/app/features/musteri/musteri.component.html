@@ -1,0 +1,204 @@
+<p-card header="Müsteri">
+    <p-table #dt [value]="customers" [(selection)]="selectedCustomers" dataKey="ID" [rowHover]="true" [rows]="10"
+        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+        [globalFilterFields]="['musteriAdi', 'musteriSoyadi', 'musteriCinsiyet', 'musteriTelNo','musteriTelNo2','musteriEmail',
+    'musteriDogumGunu','musteriKaraListe']">
+        <ng-template pTemplate="caption">
+            <div class="table-header flex">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                        placeholder="Müsteri Ara" />
+                </span>
+                <span class="p-input-icon-left ml-auto">
+                    <button pButton pRipple class="p-button-success"
+                        (click)="this.dialogShow = !this.dialogShow;">Müsteri Ekle</button>
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th pSortableColumn="musteriAdi" style="min-width: 14rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Adı
+                        <p-sortIcon field="musteriAdi"></p-sortIcon>
+                        <p-columnFilter type="text" field="musteriAdi" display="menu" class="ml-auto"></p-columnFilter>
+                    </div>
+                </th>
+                <th pSortableColumn="musteriSoyadi" style="min-width: 14rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Soyadı
+                        <p-sortIcon field="musteriSoyadi"></p-sortIcon>
+                        <p-columnFilter type="text" field="musteriSoyadi" display="menu"
+                            class="ml-auto"></p-columnFilter>
+                    </div>
+                </th>
+                <th pSortableColumn="musteriCinsiyet" style="min-width: 14rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Cinsiyet
+                        <p-sortIcon field="musteriCinsiyet"></p-sortIcon>
+                        <p-columnFilter type="text" field="musteriCinsiyet" display="menu"
+                            class="ml-auto"></p-columnFilter>
+                    </div>
+                </th>
+                <th pSortableColumn="musteriTelNo" style="min-width: 14rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Telefon Numarası
+                        <p-sortIcon field="musteriTelNo"></p-sortIcon>
+                        <p-columnFilter type="text" field="musteriTelNo" display="menu"
+                            class="ml-auto"></p-columnFilter>
+                    </div>
+                </th>
+                <th pSortableColumn="musteriTelNo2" style="min-width: 14rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Telefon Numarası
+                        <p-sortIcon field="musteriTelNo2"></p-sortIcon>
+                        <p-columnFilter type="text" field="musteriTelNo2" display="menu"
+                            class="ml-auto"></p-columnFilter>
+                    </div>
+                </th>
+                <th pSortableColumn="musteriEmail" style="min-width: 14rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Eposta
+                        <p-sortIcon field="musteriEmail"></p-sortIcon>
+                        <p-columnFilter type="text" field="musteriEmail" display="menu"
+                            class="ml-auto"></p-columnFilter>
+                    </div>
+                </th>
+                <th pSortableColumn="musteriDogumGunu" style="min-width: 10rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Doğum tarihi
+                        <p-sortIcon field="musteriDogumGunu"></p-sortIcon>
+                        <p-columnFilter type="date" field="musteriDogumGunu" display="menu"
+                            class="ml-auto"></p-columnFilter>
+                    </div>
+                </th>
+
+                <th pSortableColumn="musteriKaraListe" style="min-width: 10rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Kara Liste
+                        <p-sortIcon field="musteriKaraListe"></p-sortIcon>
+                        <p-columnFilter field="musteriKaraListe" matchMode="equals" display="menu" class="ml-auto">
+                            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
+                                <p-dropdown [ngModel]="value" [options]="statuses" (onChange)="filter($event.value)"
+                                    placeholder="Any">
+                                    <ng-template let-option pTemplate="item">
+                                        <p-tag [value]="option.label" [severity]="getSeverity(option.label)"></p-tag>
+                                    </ng-template>
+                                </p-dropdown>
+                            </ng-template>
+                        </p-columnFilter>
+                    </div>
+                </th>
+                <th style="width: 1rem"></th>
+                <th style="width: 1rem"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customer>
+            <tr class="p-selectable-row">
+                <td>
+                    <span class="p-column-title">musteriAdi</span>
+                    {{ customer.musteriAdi }}
+                </td>
+                <td>
+                    <span class="p-column-title">musteriSoyadi</span>
+                    {{ customer.musteriSoyadi }}
+                </td>
+                <td>
+                    <span class="p-column-title">musteriCinsiyet</span>
+                    {{ customer.musteriCinsiyet }}
+                </td>
+                <td>
+                    <span class="p-column-title">musteriTelNo</span>
+                    {{ customer.musteriTelNo }}
+                </td>
+                <td>
+                    <span class="p-column-title">musteriTelNo2</span>
+                    {{ customer.musteriTelNo2 }}
+                </td>
+                <td>
+                    <span class="p-column-title">musteriEmail</span>
+                    {{ customer.musteriEmail }}
+                </td>
+                <td>
+                    <span class="p-column-title">musteriDogumGunu</span>
+                    {{ customer.musteriDogumGunu | date: 'MM/dd/yyyy' }}
+                </td>
+                <td>
+                    <span class="p-column-title">musteriKaraListe</span>
+                    {{ customer.musteriKaraListe }}
+                </td>
+                <td style="text-align: center">
+                    <button pButton pRipple class="p-button-primary" icon="pi pi-pencil"
+                        (click)="dialogShow = !dialogShow"></button>
+
+                </td>
+                <td style="text-align: center">
+                    <button pButton pRipple class="p-button-danger" icon="pi pi-times"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="8">Müsteri bulunamadı.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>
+
+<app-dialog [header]="'Müsteri işlemleri'" [show]="dialogShow">
+    <form [formGroup]="musteriForm">
+        <div class="grid py-5">
+            <div class="col-12 md:col-6">
+                <span class="p-float-label">
+                    <input pInputText id="ad" formControlName="musteriAdi" />
+                    <label htmlFor="ad">Ad</label>
+                </span>
+            </div>
+            <div class="col-12 md:col-6">
+                <span class="p-float-label">
+                    <input pInputText id="soyad" formControlName="musteriSoyadi" />
+                    <label htmlFor="soyad">Soyad</label>
+                </span>
+            </div>
+            <div class="col-12 md:col-6">
+                <p-dropdown [options]="cinsiyetler" optionValue="code" optionLabel="name" dataKey="cost_center_id" placeholder="Cinsiyet"
+                    formControlName="musteriCinsiyet"></p-dropdown>
+            </div>
+            <div class="col-12 md:col-6">
+                <span class="p-float-label">
+                    <p-inputMask mask="(999) 999-9999" id="telefon" formControlName="musteriTelNo"></p-inputMask>
+                    <label htmlFor="telefon">Telefon</label>
+                </span>
+            </div>
+            <div class="col-12 md:col-6">
+                <span class="p-float-label">
+                    <p-inputMask mask="(999) 999-9999" id="telefon" formControlName="musteriTelNo2"></p-inputMask>
+                    <label htmlFor="telefon">Telefon 2</label>
+                </span>
+            </div>
+            <div class="col-12 md:col-6">
+                <span class="p-float-label">
+                    <input pInputText id="eposta" formControlName="musteriEmail" />
+                    <label htmlFor="eposta">Eposta</label>
+                </span>
+            </div>
+            <div class="col-12 md:col-6">
+                <span class="p-float-label" style="width: 100%;">
+                    <p-calendar id="dogumTarihi" formControlName="musteriDogumGunu"></p-calendar>
+                    <label htmlFor="dogumTarihi">Doğum tarihi</label>
+                </span>
+            </div>
+            <div class="col-6">
+                <p-checkbox label="Kara liste" formControlName="musteriKaraListe"></p-checkbox>
+            </div>
+            <div class="col-6">
+                <p-checkbox label="Mesaj gönderim durumu"></p-checkbox>
+            </div>
+        </div>
+        <div style="display: flex;width: 100%;justify-content: flex-end;">
+            <button pButton pRipple class="p-button-success" (click)="musteriAdd()">kaydet</button>
+        </div>
+    </form>
+</app-dialog>

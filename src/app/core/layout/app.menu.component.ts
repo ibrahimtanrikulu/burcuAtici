@@ -14,6 +14,16 @@ export class AppMenuComponent implements OnInit {
     ngOnInit() {
         this.model = [
             {
+                label: 'Home',
+                items: [
+                    {
+                        label: 'Home',
+                        icon: 'pi pi-fw pi-home',
+                        routerLink: ['/home']
+                    },
+                ],
+            },
+            {
                 label: 'Randevu işlemleri',
                 items: [
                     {
@@ -28,6 +38,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Müsteri',
                         icon: 'pi pi-fw pi-id-card',
+                        routerLink: ['/musteri']
                     },
                 ],
             },
@@ -37,6 +48,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'çalışan',
                         icon: 'pi pi-fw pi-eye',
+                        routerLink: ['/calisan']
                     },
                 ],
             },
@@ -46,14 +58,12 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Yeni Hizmet',
                         icon: 'pi pi-fw pi-prime',
+                        routerLink: ['/yeni-hizmet']
                     },
                     {
-                        label: 'Yeni Hizmet Kategorisi',
+                        label: 'Hizmet Kategorisi',
                         icon: 'pi pi-fw pi-prime',
-                    },
-                    {
-                        label: 'Yeni Hizmet Adı',
-                        icon: 'pi pi-fw pi-prime',
+                        routerLink: ['/hizmet']
                     },
                 ],
             },
@@ -66,33 +76,16 @@ export class AppMenuComponent implements OnInit {
                     },
                 ],
             },
-            // {
-            //     label: 'Pages',
-            //     icon: 'pi pi-fw pi-briefcase',
-            //     items: [
-            //         {
-            //             label: 'Auth',
-            //             icon: 'pi pi-fw pi-user',
-            //             items: [
-            //                 {
-            //                     label: 'Login',
-            //                     icon: 'pi pi-fw pi-sign-in',
-            //                     routerLink: ['/auth/login'],
-            //                 },
-            //                 {
-            //                     label: 'Error',
-            //                     icon: 'pi pi-fw pi-times-circle',
-            //                     routerLink: ['/auth/error'],
-            //                 },
-            //                 {
-            //                     label: 'Access Denied',
-            //                     icon: 'pi pi-fw pi-lock',
-            //                     routerLink: ['/auth/access'],
-            //                 },
-            //             ],
-            //         },
-            //     ],
-            // },
+            {
+                label: 'Kullanıcı ayarları',
+                items: [
+                    {
+                        label: 'Kulanıcı',
+                        icon: 'pi pi-fw pi-eye',
+                        routerLink: ['/user']
+                    },
+                ],
+            },
         ];
     }
 }

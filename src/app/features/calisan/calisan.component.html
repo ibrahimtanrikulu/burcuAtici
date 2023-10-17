@@ -1,0 +1,164 @@
+<p-card header="Çalışan">
+    <p-table #dt [value]="calisan" [(selection)]="selectedCalisan" dataKey="ID" [rowHover]="true" [rows]="10"
+        [showCurrentPageReport]="true" [rowsPerPageOptions]="[10, 25, 50]" [paginator]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [filterDelay]="0"
+        [globalFilterFields]="['calisanAdi', 'calisanSoyad', 'calisanCinsiyet', 'calisanUnvan','calisanTelNo','calisanEmail']">
+        <ng-template pTemplate="caption">
+            <div class="table-header flex">
+                <span class="p-input-icon-left">
+                    <i class="pi pi-search"></i>
+                    <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                        placeholder="Çalışan Ara" />
+                </span>
+                <span class="p-input-icon-left ml-auto">
+                    <button pButton pRipple class="p-button-success"
+                        (click)="this.hizmetkategoriShow = !this.hizmetkategoriShow;">Çalışan Ekle</button>
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 4rem">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th pSortableColumn="calisanAdi" style="min-width: 14rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Adı
+                        <p-sortIcon field="calisanAdi"></p-sortIcon>
+                        <p-columnFilter type="text" field="calisanAdi" display="menu" class="ml-auto"></p-columnFilter>
+                    </div>
+                </th>
+                <th pSortableColumn="calisanSoyad" style="min-width: 14rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Soyadı
+                        <p-sortIcon field="calisanSoyad"></p-sortIcon>
+                        <p-columnFilter type="text" field="calisanSoyad" display="menu"
+                            class="ml-auto"></p-columnFilter>
+                    </div>
+                </th>
+                <th pSortableColumn="calisanCinsiyet" style="min-width: 14rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Cinsiyet
+                        <p-sortIcon field="calisanCinsiyet"></p-sortIcon>
+                        <p-columnFilter type="text" field="calisanCinsiyet" display="menu"
+                            class="ml-auto"></p-columnFilter>
+                    </div>
+                </th>
+                <th pSortableColumn="calisanUnvan" style="min-width: 14rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Ünvan
+                        <p-sortIcon field="calisanUnvan"></p-sortIcon>
+                        <p-columnFilter type="text" field="calisanUnvan" display="menu"
+                            class="ml-auto"></p-columnFilter>
+                    </div>
+                </th>
+                <th pSortableColumn="calisanTelNo" style="min-width: 14rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Telefon Numarası
+                        <p-sortIcon field="calisanTelNo"></p-sortIcon>
+                        <p-columnFilter type="text" field="calisanTelNo" display="menu"
+                            class="ml-auto"></p-columnFilter>
+                    </div>
+                </th>
+                <th pSortableColumn="calisanEmail" style="min-width: 14rem">
+                    <div class="flex justify-content-between align-items-center">
+                        Eposta
+                        <p-sortIcon field="calisanEmail"></p-sortIcon>
+                        <p-columnFilter type="text" field="calisanEmail" display="menu"
+                            class="ml-auto"></p-columnFilter>
+                    </div>
+                </th>
+
+                <th style="width: 5rem"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-customer>
+            <tr class="p-selectable-row">
+                <td>
+                    <p-tableCheckbox [value]="customer"></p-tableCheckbox>
+                </td>
+                <td>
+                    <span class="p-column-title">calisanAdi</span>
+                    {{ customer.calisanAdi }}
+                </td>
+                <td>
+                    <span class="p-column-title">calisanSoyad</span>
+                    {{ customer.calisanSoyad }}
+                </td>
+                <td>
+                    <span class="p-column-title">calisanCinsiyet</span>
+                    {{ customer.calisanCinsiyet }}
+                </td>
+                <td>
+                    <span class="p-column-title">calisanUnvan</span>
+                    {{ customer.calisanUnvan }}
+                </td>
+                <td>
+                    <span class="p-column-title">calisanTelNo</span>
+                    {{ customer.calisanTelNo }}
+                </td>
+                <td>
+                    <span class="p-column-title">calisanEmail</span>
+                    {{ customer.calisanEmail }}
+                </td>
+                <td style="text-align: center">
+                    <button pButton type="button" class="p-button-secondary" icon="pi pi-cog"></button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="8">Çalışan bulunamadı.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</p-card>
+
+<app-dialog [header]="'Çalışan Düzenleme'" [show]="dialogShow">
+    <p-card>
+        <div class="grid">
+            <div class="col-12 md:col-6">
+                <span class="p-float-label">
+                    <input pInputText id="ad" />
+                    <label htmlFor="ad">Ad</label>
+                </span>
+            </div>
+            <div class="col-12 md:col-6">
+                <span class="p-float-label">
+                    <input pInputText id="soyad" />
+                    <label htmlFor="soyad">Soyad</label>
+                </span>
+            </div>
+            <div class="col-12 md:col-6">
+                <span class="p-float-label">
+                    <p-dropdown [options]="{ name: 'Erkek', code: 'erkek' }" id="cinsiyet"></p-dropdown>
+                    <label htmlFor="cinsiyet">Cinsiyet</label>
+                </span>
+            </div>
+            <div class="col-12 md:col-6">
+                <span class="p-float-label">
+                    <p-inputMask mask="(999) 999-9999" id="telefon"></p-inputMask>
+                    <label htmlFor="telefon">Telefon</label>
+                </span>
+            </div>
+            <div class="col-12 md:col-6">
+                <span class="p-float-label">
+                    <input pInputText id="eposta" />
+                    <label htmlFor="eposta">Eposta</label>
+                </span>
+            </div>
+            <div class="col-12 md:col-6">
+                <span class="p-float-label">
+                    <input pInputText id="ünvan" />
+                    <label htmlFor="ünvan">Ünvan</label>
+                </span>
+            </div>
+            <div class="col-12">
+                <!-- hizmerler -->
+            </div>
+        </div>
+        <div style="display: flex;width: 100%;justify-content: flex-end;">
+            <p-button type="button" severity="secondery" label="kaydet" />
+        </div>
+    </p-card>
+</app-dialog>
