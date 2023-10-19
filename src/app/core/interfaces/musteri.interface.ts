@@ -7,6 +7,6 @@ export interface IMusteri extends IBase {
     musteriTelNo: string;
     musteriTelNo2?: string;
     musteriEmail: string;
-    musteriDogumGunu: Date;
+    musteriDogumGunu: string;
     musteriKaraListe: boolean;
 }

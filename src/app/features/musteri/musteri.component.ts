@@ -43,6 +43,7 @@ export class MusteriComponent {
         { name: 'Erkek', code: 'Man' },
     ];
     dialogShow: boolean = false;
+    musteriEdit: boolean = false;
     customers: IMusteri[] = [];
     selectedCustomers: IMusteri[] = [];
     musteriForm = new FormGroup({
@@ -54,7 +55,7 @@ export class MusteriComponent {
         musteriTelNo2: new FormControl(''),
         musteriEmail: new FormControl(''),
         musteriDogumGunu: new FormControl(''),
-        musteriKaraListe: new FormControl(''),
+        // musteriKaraListe: new FormControl(''),
     });
 
     constructor(private musteriServise: MusteriService) {
@@ -66,11 +67,37 @@ export class MusteriComponent {
         });
     }
     musteriAdd() {
-        // this.musteriServise
-        //     .post('create', this.musteriForm.value)
-        //     .subscribe((s) => {
-        //         this.getAll();
-        //     });
-        console.log(this.musteriForm.value);
+        if (this.musteriEdit) {
+            console.log('girdi');
+            this.musteriServise
+                .put(
+                    'update/' + this.musteriForm.value.id,
+                    this.musteriForm.value
+                )
+                .subscribe((s) => {
+                    this.getAll();
+                });
+        } else {
+            this.musteriServise
+                .post('create', this.musteriForm.value)
+                .subscribe((s) => {
+                    this.getAll();
+                });
+        }
+    }
+
+    musteriEditMethod(c: IMusteri) {
+        this.musteriEdit = true;
+        this.musteriForm.patchValue({
+            id: c.id,
+            musteriAdi: c.musteriAdi,
+            musteriSoyadi: c.musteriSoyadi,
+            musteriCinsiyet: c.musteriCinsiyet,
+            musteriDogumGunu: c.musteriDogumGunu,
+            musteriEmail: c.musteriEmail,
+            musteriTelNo: c.musteriTelNo,
+            musteriTelNo2: c.musteriTelNo2,
+        });
+        this.dialogShow = true;
     }
 }

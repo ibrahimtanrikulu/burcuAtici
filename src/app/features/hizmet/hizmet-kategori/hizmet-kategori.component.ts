@@ -29,7 +29,11 @@ import { DialogComponent } from 'src/app/shared/components/dialog/dialog.compone
 export class HizmetKategoriComponent {
     hizmetkategoriShow: boolean = false;
     hizmetShow: boolean = false;
+
+    hizmetkategoriStatus: boolean = false;
+    hizmetEditStatus: boolean = false;
     hizmetKategori: IHizmetKategori[] = [];
+
     kategoriID: number = 0;
     HizmetKategoriForm = new FormGroup({
         id: new FormControl(),
@@ -52,24 +56,57 @@ export class HizmetKategoriComponent {
         });
     }
     hizmetKategoriAdd() {
-        this.hizmetKategoriService
-            .post('create', this.HizmetKategoriForm.value)
-            .subscribe((s) => {
-                this.getAll();
-            });
+        if (this.hizmetkategoriStatus == true) {
+            this.hizmetKategoriService.put(
+                'update/' + this.HizmetKategoriForm.value.id,
+                this.HizmetKategoriForm.value
+            );
+            this.hizmetkategoriStatus = false;
+            console.log("girdi");
+            
+        } else {
+            this.hizmetKategoriService
+                .post('create', this.HizmetKategoriForm.value)
+                .subscribe((s) => {
+                    this.getAll();
+                });
+        }
+        this.hizmetkategoriShow = false;
     }
     hizmetAdd() {
-        this.hizmetService
-            .post('create' + '/' + this.kategoriID, this.HizmetForm.value.hizmetAdi)
-            .subscribe((s) => {
-                this.getAll();
-            });
+        if (this.hizmetEditStatus) {
+            this.hizmetService.put(
+                'uppdate/' + this.HizmetForm.value.id,
+                this.HizmetForm.value
+            );
+            this.hizmetEditStatus = false;
+        } else {
+            this.hizmetService
+                .post(
+                    'create' + '/' + this.kategoriID,
+                    this.HizmetForm.value.hizmetAdi
+                )
+                .subscribe((s) => {
+                    this.getAll();
+                });
+        }
+        this.hizmetShow = false;
     }
     hizmetKategoriEdit(hizmetKategori: IHizmetKategori) {
-        console.log(hizmetKategori, 'hizmetKategori');
+        this.hizmetkategoriStatus == true;
+        this.HizmetKategoriForm.patchValue({
+            id: hizmetKategori.id,
+            hizmetKategoriAdi: hizmetKategori.hizmetKategoriAdi,
+        });
+        this.hizmetkategoriShow = true;
     }
     hizmetEdit(hizmet: IHizmet) {
-        console.log(hizmet, 'hizmet');
+        this.HizmetForm.patchValue({
+            id: hizmet.id,
+            hizmetAdi: hizmet.hizmetAdi,
+        });
+        this.hizmetkategoriShow = true;
+        this.hizmetkategoriStatus == true;
     }
     hizmetKategoridelete() {}
     hizmetDelete() {}

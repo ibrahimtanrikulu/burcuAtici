@@ -123,7 +123,7 @@
                 </td>
                 <td>
                     <span class="p-column-title">musteriDogumGunu</span>
-                    {{ customer.musteriDogumGunu | date: 'MM/dd/yyyy' }}
+                    {{ customer.musteriDogumGunu }}
                 </td>
                 <td>
                     <span class="p-column-title">musteriKaraListe</span>
@@ -131,7 +131,7 @@
                 </td>
                 <td style="text-align: center">
                     <button pButton pRipple class="p-button-primary" icon="pi pi-pencil"
-                        (click)="dialogShow = !dialogShow"></button>
+                        (click)="musteriEditMethod(customer)"></button>
 
                 </td>
                 <td style="text-align: center">
@@ -163,8 +163,8 @@
                 </span>
             </div>
             <div class="col-12 md:col-6">
-                <p-dropdown [options]="cinsiyetler" optionValue="code" optionLabel="name" dataKey="cost_center_id" placeholder="Cinsiyet"
-                    formControlName="musteriCinsiyet"></p-dropdown>
+                <p-dropdown [options]="cinsiyetler" optionValue="code" optionLabel="name" dataKey="cost_center_id"
+                    placeholder="Cinsiyet" formControlName="musteriCinsiyet"></p-dropdown>
             </div>
             <div class="col-12 md:col-6">
                 <span class="p-float-label">
@@ -185,13 +185,13 @@
                 </span>
             </div>
             <div class="col-12 md:col-6">
-                <span class="p-float-label" style="width: 100%;">
-                    <p-calendar id="dogumTarihi" formControlName="musteriDogumGunu"></p-calendar>
+                <span class="p-float-label">
+                    <p-inputMask mask="99-99-9999" id="dogumTarihi" formControlName="musteriDogumGunu"></p-inputMask>
                     <label htmlFor="dogumTarihi">Doğum tarihi</label>
                 </span>
             </div>
             <div class="col-6">
-                <p-checkbox label="Kara liste" formControlName="musteriKaraListe"></p-checkbox>
+                <p-checkbox label="Kara liste"></p-checkbox>
             </div>
             <div class="col-6">
                 <p-checkbox label="Mesaj gönderim durumu"></p-checkbox>

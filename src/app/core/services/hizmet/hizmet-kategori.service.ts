@@ -7,6 +7,6 @@ import { HttpClient } from '@angular/common/http';
 })
 export class HizmetKategoriService extends HttpclientService<any> {
     constructor(httpClient: HttpClient) {
-        super(httpClient, 'hizmetkategori');
+        super(httpClient, 'hizmetKategori');
     }
 }
