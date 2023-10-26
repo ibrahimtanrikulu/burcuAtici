@@ -7,4 +7,5 @@ export interface ICalisan extends IBase {
     calisanUnvan: string;
     calisanTelNo: string;
     calisanEmail: string;
+    hizmetIds: any[];
 }

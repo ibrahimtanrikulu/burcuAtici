@@ -39,8 +39,8 @@ import {
 })
 export class MusteriComponent {
     cinsiyetler = [
-        { name: 'Kadın', code: 'Women' },
-        { name: 'Erkek', code: 'Man' },
+        { name: 'Kadın', code: 'Kadın' },
+        { name: 'Erkek', code: 'Erkek' },
     ];
     dialogShow: boolean = false;
     musteriEdit: boolean = false;

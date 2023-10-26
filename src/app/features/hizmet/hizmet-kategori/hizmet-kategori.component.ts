@@ -57,13 +57,15 @@ export class HizmetKategoriComponent {
     }
     hizmetKategoriAdd() {
         if (this.hizmetkategoriStatus == true) {
-            this.hizmetKategoriService.put(
-                'update/' + this.HizmetKategoriForm.value.id,
-                this.HizmetKategoriForm.value
-            );
+            this.hizmetKategoriService
+                .put(
+                    'update/' + this.HizmetKategoriForm.value.id,
+                    this.HizmetKategoriForm.value
+                )
+                .subscribe((s) => {
+                    this.getAll();
+                });
             this.hizmetkategoriStatus = false;
-            console.log("girdi");
-            
         } else {
             this.hizmetKategoriService
                 .post('create', this.HizmetKategoriForm.value)
@@ -75,10 +77,14 @@ export class HizmetKategoriComponent {
     }
     hizmetAdd() {
         if (this.hizmetEditStatus) {
-            this.hizmetService.put(
-                'uppdate/' + this.HizmetForm.value.id,
-                this.HizmetForm.value
-            );
+            this.hizmetService
+                .put(
+                    'update/' + this.HizmetForm.value.id,
+                    this.HizmetForm.value
+                )
+                .subscribe((s) => {
+                    this.getAll();
+                });
             this.hizmetEditStatus = false;
         } else {
             this.hizmetService
@@ -93,7 +99,7 @@ export class HizmetKategoriComponent {
         this.hizmetShow = false;
     }
     hizmetKategoriEdit(hizmetKategori: IHizmetKategori) {
-        this.hizmetkategoriStatus == true;
+        this.hizmetkategoriStatus = true;
         this.HizmetKategoriForm.patchValue({
             id: hizmetKategori.id,
             hizmetKategoriAdi: hizmetKategori.hizmetKategoriAdi,
@@ -101,12 +107,12 @@ export class HizmetKategoriComponent {
         this.hizmetkategoriShow = true;
     }
     hizmetEdit(hizmet: IHizmet) {
+        this.hizmetEditStatus = true;
         this.HizmetForm.patchValue({
             id: hizmet.id,
             hizmetAdi: hizmet.hizmetAdi,
         });
-        this.hizmetkategoriShow = true;
-        this.hizmetkategoriStatus == true;
+        this.hizmetShow = true;
     }
     hizmetKategoridelete() {}
     hizmetDelete() {}

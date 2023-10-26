@@ -163,8 +163,11 @@
                 </span>
             </div>
             <div class="col-12 md:col-6">
-                <p-dropdown [options]="cinsiyetler" optionValue="code" optionLabel="name" dataKey="cost_center_id"
-                    placeholder="Cinsiyet" formControlName="musteriCinsiyet"></p-dropdown>
+                <span class="p-float-label">
+                    <p-dropdown [options]="cinsiyetler" optionValue="code" optionLabel="name" dataKey="cost_center_id"
+                        formControlName="musteriCinsiyet"></p-dropdown>
+                    <label htmlFor="cinsiyet">Cinsiyet</label>
+                </span>
             </div>
             <div class="col-12 md:col-6">
                 <span class="p-float-label">

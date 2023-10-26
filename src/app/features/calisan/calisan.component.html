@@ -12,15 +12,12 @@
                 </span>
                 <span class="p-input-icon-left ml-auto">
                     <button pButton pRipple class="p-button-success"
-                        (click)="this.hizmetkategoriShow = !this.hizmetkategoriShow;">Çalışan Ekle</button>
+                        (click)="this.dialogShow = !this.dialogShow;">Çalışan Ekle</button>
                 </span>
             </div>
         </ng-template>
         <ng-template pTemplate="header">
             <tr>
-                <th style="width: 4rem">
-                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
-                </th>
                 <th pSortableColumn="calisanAdi" style="min-width: 14rem">
                     <div class="flex justify-content-between align-items-center">
                         Adı
@@ -70,39 +67,41 @@
                 </th>
 
                 <th style="width: 5rem"></th>
+                <th style="width: 5rem"></th>
             </tr>
         </ng-template>
-        <ng-template pTemplate="body" let-customer>
+        <ng-template pTemplate="body" let-musteri>
             <tr class="p-selectable-row">
                 <td>
-                    <p-tableCheckbox [value]="customer"></p-tableCheckbox>
-                </td>
-                <td>
                     <span class="p-column-title">calisanAdi</span>
-                    {{ customer.calisanAdi }}
+                    {{ musteri.calisanAdi }}
                 </td>
                 <td>
                     <span class="p-column-title">calisanSoyad</span>
-                    {{ customer.calisanSoyad }}
+                    {{ musteri.calisanSoyad }}
                 </td>
                 <td>
                     <span class="p-column-title">calisanCinsiyet</span>
-                    {{ customer.calisanCinsiyet }}
+                    {{ musteri.calisanCinsiyet }}
                 </td>
                 <td>
                     <span class="p-column-title">calisanUnvan</span>
-                    {{ customer.calisanUnvan }}
+                    {{ musteri.calisanUnvan }}
                 </td>
                 <td>
                     <span class="p-column-title">calisanTelNo</span>
-                    {{ customer.calisanTelNo }}
+                    {{ musteri.calisanTelNo }}
                 </td>
                 <td>
                     <span class="p-column-title">calisanEmail</span>
-                    {{ customer.calisanEmail }}
+                    {{ musteri.calisanEmail }}
                 </td>
                 <td style="text-align: center">
-                    <button pButton type="button" class="p-button-secondary" icon="pi pi-cog"></button>
+                    <button pButton pRipple class="p-button-primary" icon="pi pi-pencil"
+                        (click)="calisanEditMethod(musteri)"></button>
+                </td>
+                <td style="text-align: center">
+                    <button pButton pRipple class="p-button-danger" icon="pi pi-times"></button>
                 </td>
             </tr>
         </ng-template>
@@ -114,51 +113,61 @@
     </p-table>
 </p-card>
 
-<app-dialog [header]="'Çalışan Düzenleme'" [show]="dialogShow">
+
+<app-dialog [header]="'Çalışan İşlemleri'" [show]="dialogShow">
+    <p-multiSelect [options]="hizmetKategoriAnyType" [group]="true" defaultLabel="Hizmet Seç"
+            [(ngModel)]="selectionHizmet" optionValue="id" optionLabel="hizmetAdi">
+            <ng-template let-hizmetKat pTemplate="group">
+                <div class="flex align-items-center">
+                    <span>{{ hizmetKat.hizmetAdi }}</span>
+                </div>
+            </ng-template>
+        </p-multiSelect>
     <p-card>
-        <div class="grid">
-            <div class="col-12 md:col-6">
-                <span class="p-float-label">
-                    <input pInputText id="ad" />
-                    <label htmlFor="ad">Ad</label>
-                </span>
+        <form [formGroup]="calisanForm">
+            <div class="grid">
+                <div class="col-12 md:col-6">
+                    <span class="p-float-label">
+                        <input pInputText id="ad" formControlName="calisanAdi" />
+                        <label htmlFor="ad">Ad</label>
+                    </span>
+                </div>
+                <div class="col-12 md:col-6">
+                    <span class="p-float-label">
+                        <input pInputText id="soyad" formControlName="calisanSoyadi" />
+                        <label htmlFor="soyad">Soyad</label>
+                    </span>
+                </div>
+                <div class="col-12 md:col-6">
+                    <span class="p-float-label">
+                        <p-dropdown [options]="cinsiyetler" optionValue="code" optionLabel="name"
+                            dataKey="cost_center_id" placeholder="Cinsiyet"
+                            formControlName="calisanCinsiyet"></p-dropdown>
+                        <label htmlFor="cinsiyet">Cinsiyet</label>
+                    </span>
+                </div>
+                <div class="col-12 md:col-6">
+                    <span class="p-float-label">
+                        <p-inputMask mask="(999) 999-9999" id="telefon" formControlName="calisanTelNo"></p-inputMask>
+                        <label htmlFor="telefon">Telefon</label>
+                    </span>
+                </div>
+                <div class="col-12 md:col-6">
+                    <span class="p-float-label">
+                        <input pInputText id="eposta" formControlName="calisanEmail" />
+                        <label htmlFor="eposta">Eposta</label>
+                    </span>
+                </div>
+                <div class="col-12 md:col-6">
+                    <span class="p-float-label">
+                        <input pInputText id="ünvan" formControlName="calisanUnvan" />
+                        <label htmlFor="ünvan">Ünvan</label>
+                    </span>
+                </div>
             </div>
-            <div class="col-12 md:col-6">
-                <span class="p-float-label">
-                    <input pInputText id="soyad" />
-                    <label htmlFor="soyad">Soyad</label>
-                </span>
-            </div>
-            <div class="col-12 md:col-6">
-                <span class="p-float-label">
-                    <p-dropdown [options]="{ name: 'Erkek', code: 'erkek' }" id="cinsiyet"></p-dropdown>
-                    <label htmlFor="cinsiyet">Cinsiyet</label>
-                </span>
-            </div>
-            <div class="col-12 md:col-6">
-                <span class="p-float-label">
-                    <p-inputMask mask="(999) 999-9999" id="telefon"></p-inputMask>
-                    <label htmlFor="telefon">Telefon</label>
-                </span>
-            </div>
-            <div class="col-12 md:col-6">
-                <span class="p-float-label">
-                    <input pInputText id="eposta" />
-                    <label htmlFor="eposta">Eposta</label>
-                </span>
-            </div>
-            <div class="col-12 md:col-6">
-                <span class="p-float-label">
-                    <input pInputText id="ünvan" />
-                    <label htmlFor="ünvan">Ünvan</label>
-                </span>
-            </div>
-            <div class="col-12">
-                <!-- hizmerler -->
-            </div>
-        </div>
+        </form>
         <div style="display: flex;width: 100%;justify-content: flex-end;">
-            <p-button type="button" severity="secondery" label="kaydet" />
+            <p-button type="button" severity="secondery" label="kaydet" (onClick)="save()" />
         </div>
     </p-card>
 </app-dialog>
