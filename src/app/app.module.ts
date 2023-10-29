@@ -12,13 +12,15 @@ import { YeniHizmetOlusturComponent } from './features/hizmet/yeni-hizmet-olustu
 import { HomeComponent } from './features/home/home.component';
 import { MusteriComponent } from './features/musteri/musteri.component';
 import { UserComponent } from './features/user/user.component';
-
+import { JwtModule } from '@auth0/angular-jwt';
+export function tokenGetter() {
+    return localStorage.getItem('t');
+}
 @NgModule({
     declarations: [AppComponent],
     imports: [
         AppRoutingModule,
         AppLayoutModule,
-        //bunlar özellik component
         LoginComponent,
         CalisanComponent,
         HizmetKategoriComponent,
@@ -26,13 +28,17 @@ import { UserComponent } from './features/user/user.component';
         HomeComponent,
         MusteriComponent,
         UserComponent,
-        //------------------------
-
         ServiceWorkerModule.register('ngsw-worker.js', {
             enabled: !isDevMode(),
             // Register the ServiceWorker as soon as the application is stable
             // or after 30 seconds (whichever comes first).
             registrationStrategy: 'registerWhenStable:30000',
+        }),
+        JwtModule.forRoot({
+            config: {
+                tokenGetter: tokenGetter,
+                allowedDomains: ['localhost:8080'],
+            },
         }),
     ],
     providers: [

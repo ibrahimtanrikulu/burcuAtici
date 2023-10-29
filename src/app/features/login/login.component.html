@@ -1,18 +1,19 @@
 <div class="container">
     <p-card header="Giriş yapınız" class="content">
-        <div class="my-2  ">
-            <span class="p-float-label mt-4">
-                <p-inputMask mask="(999) 999-9999" id="phone"></p-inputMask>
-                <label htmlFor="phone">Telefon:</label>
+        <div class="my-2">
+            <span class="p-float-label">
+                <input pInputText id="telefon" [(ngModel)]="userPhoneNumber"/>
+                <label htmlFor="telefon">Telefon:</label>
             </span>
             <span class="p-float-label mt-5">
-                <input pInputText type="password" autocomplete="off" class="p-corner-all p-state-default p-widget  ">
+                <input pInputText type="password" autocomplete="off" class="p-corner-all p-state-default p-widget"
+                    [(ngModel)]="userPassword">
                 <label for="float-input">Şifre:</label>
             </span>
         </div>
         <ng-template pTemplate="footer">
             <div class="button-end">
-                <p-button label="Giriş" icon="pi pi-arrow-right"></p-button>
+                <p-button label="Giriş" icon="pi pi-arrow-right" (click)="login()"></p-button>
             </div>
         </ng-template>
     </p-card>

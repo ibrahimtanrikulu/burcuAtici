@@ -8,6 +8,7 @@ import { HomeComponent } from './features/home/home.component';
 import { HizmetKategoriComponent } from './features/hizmet/hizmet-kategori/hizmet-kategori.component';
 import { YeniHizmetOlusturComponent } from './features/hizmet/yeni-hizmet-olustur/yeni-hizmet-olustur.component';
 import { CalisanComponent } from './features/calisan/calisan.component';
+import { AuthGuard } from './core/guards/auth.guard';
 
 @NgModule({
     imports: [
@@ -20,30 +21,37 @@ import { CalisanComponent } from './features/calisan/calisan.component';
                 {
                     path: '',
                     component: AppLayoutComponent,
+                    canActivate: [AuthGuard],
                     children: [
                         {
                             path: 'musteri',
                             component: MusteriComponent,
+                            canActivate: [AuthGuard],
                         },
                         {
                             path: 'user',
                             component: UserComponent,
+                            canActivate: [AuthGuard],
                         },
                         {
                             path: 'home',
                             component: HomeComponent,
+                            canActivate: [AuthGuard],
                         },
                         {
                             path: 'hizmet',
                             component: HizmetKategoriComponent,
+                            canActivate: [AuthGuard],
                         },
                         {
                             path: 'yeni-hizmet',
                             component: YeniHizmetOlusturComponent,
+                            canActivate: [AuthGuard],
                         },
                         {
                             path: 'calisan',
                             component: CalisanComponent,
+                            canActivate: [AuthGuard],
                         },
                     ],
                 },
