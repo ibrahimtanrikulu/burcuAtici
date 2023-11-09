@@ -1,0 +1,171 @@
+<p-card header="Randevu">
+    <div>
+        <button
+            pButton
+            pRipple
+            class="p-button-primary mr-2"
+            icon="pi pi-angle-double-left"
+            (click)="previousMonth()"
+        ></button>
+        <button
+            pButton
+            pRipple
+            class="p-button-primary mr-2"
+            icon="pi pi-angle-left"
+            (click)="previousDay()"
+        ></button>
+        <button
+            pButton
+            pRipple
+            class="p-button-primary mr-2"
+            icon="pi pi-angle-right"
+            (click)="nextDay()"
+        ></button>
+        <button
+            pButton
+            pRipple
+            class="p-button-primary mr-2"
+            icon="pi pi-angle-double-right"
+            (click)="nextMonth()"
+        ></button>
+        <button
+            pButton
+            pRipple
+            class="p-button-primary mr-2"
+            icon="pi pi-calendar"
+            (click)="dialogOpen()"
+        ></button>
+        <h5>Tarih: {{ selectedDate | date : "fullDate" }}</h5>
+    </div>
+    <ul class="custom-list-group">
+        <ng-container *ngFor="let randevu of randevuList">
+            <ng-container
+                *ngIf="
+                    randevu.randevuTarih.getFullYear() ==
+                        selectedDate.getFullYear() &&
+                    randevu.randevuTarih.getMonth() ==
+                        selectedDate.getMonth() &&
+                    randevu.randevuTarih.getDate() == selectedDate.getDate()
+                "
+            >
+                <li class="custom-list-group-item">
+                    <div class="grid">
+                        <div class="col-12 md:col-3">
+                            <b>Tarihi:</b>
+                            {{ randevu.randevuTarih | date : "medium" }}
+                        </div>
+                        <div class="col-12 md:col-3">
+                            <ng-container *ngFor="let calisan of calisanList">
+                                <ng-container
+                                    *ngIf="calisan.calisanId == randevu.calisan"
+                                >
+                                    <b>Çalışan:</b>
+                                    {{ calisan.calisanAdi }}
+                                    {{ calisan.calisanSoyad }}
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                        <div class="col-12 md:col-3">
+                            <ng-container *ngFor="let hizmet of hizmetList">
+                                <ng-container
+                                    *ngIf="hizmet.id == randevu.hizmet"
+                                >
+                                    <b>Hizmet:</b>
+                                    {{ hizmet.yeniHizmetAdi }}
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                        <div class="col-12 md:col-3">
+                            <ng-container *ngFor="let musteri of musteriList">
+                                <ng-container
+                                    *ngIf="musteri.id == randevu.musteri"
+                                >
+                                    <b>Müsteri:</b>
+                                    {{ musteri.musteriAdi }}
+                                    {{ musteri.musteriSoyadi }}
+                                </ng-container>
+                            </ng-container>
+                        </div>
+                        <div class="col-12 md:col-3">
+                            <button
+                                pButton
+                                pRipple
+                                class="p-button-danger"
+                                icon="pi pi-times"
+                            ></button>
+                        </div>
+                    </div>
+                </li>
+            </ng-container>
+        </ng-container>
+    </ul>
+</p-card>
+
+<p-dialog
+    [header]="'Randevu işlemleri'"
+    [(visible)]="dialogShow"
+    [modal]="true"
+    [style]="{ width: '80vw' }"
+>
+    <p-card>
+        <div class="grid">
+            <div class="col-12">
+                <span class="p-float-label">
+                    <p-dropdown
+                        optionLabel="yeniHizmetAdi"
+                        optionValue="calisanIds"
+                        [style]="{ width: '100%' }"
+                        [options]="hizmetList"
+                        placeholder="hizmet"
+                        [(ngModel)]="selectCalisanIDs"
+                        (click)="selectHizmetMethod()"
+                    ></p-dropdown>
+                    <label>Hizmet</label>
+                </span>
+            </div>
+            <div class="col-12">
+                <span class="p-float-label">
+                    <p-dropdown
+                        optionLabel="calisanAdi"
+                        optionValue="calisanId"
+                        placeholder="Calışlan"
+                        [options]="calisanIDList"
+                        [(ngModel)]="selectCalisan"
+                        [style]="{ width: '100%' }"
+                    ></p-dropdown>
+                    <label>Calışlan</label>
+                </span>
+            </div>
+            <div class="col-12">
+                <span class="p-float-label">
+                    <p-dropdown
+                        optionLabel="musteriAdi"
+                        optionValue="id"
+                        placeholder="Müsteri"
+                        [options]="musteriList"
+                        [(ngModel)]="selectMusteri"
+                        [style]="{ width: '100%' }"
+                    ></p-dropdown>
+                    <label>Müsteri</label>
+                </span>
+            </div>
+            <div class="col-12">
+                <p-calendar
+                    [inline]="true"
+                    [showWeek]="true"
+                    [style]="{ width: '100%' }"
+                    [(ngModel)]="selectDate"
+                    [showTime]="true"
+                ></p-calendar>
+            </div>
+        </div>
+        <div style="display: flex; width: 100%; justify-content: flex-end">
+            <p-button
+                type="button"
+                severity="secondery"
+                label="kaydet"
+                (onClick)="save()"
+            />
+        </div>
+    </p-card>
+</p-dialog>

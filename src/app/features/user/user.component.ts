@@ -33,6 +33,9 @@ export class UserComponent implements OnInit {
     });
     constructor(private kullaniciService: KullaniciService) {}
     ngOnInit() {
+        this.getAll();
+    }
+    getAll() {
         this.kullaniciService.get('list').subscribe((users: any) => {
             users.map((user) => {
                 this.userForm.patchValue({
@@ -48,6 +51,10 @@ export class UserComponent implements OnInit {
     }
 
     userSave() {
-        this.kullaniciService.put('update/'+this.userForm.value.id, this.userForm.value).subscribe();
+        this.kullaniciService
+            .put('update/' + this.userForm.value.id, this.userForm.value)
+            .subscribe((s) => {
+                this.getAll();
+            });
     }
 }

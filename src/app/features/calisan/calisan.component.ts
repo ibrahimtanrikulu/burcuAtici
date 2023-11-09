@@ -19,6 +19,7 @@ import {
     ReactiveFormsModule,
 } from '@angular/forms';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { DialogModule } from 'primeng/dialog';
 @Component({
     selector: 'app-calisan',
     standalone: true,
@@ -35,6 +36,7 @@ import { MultiSelectModule } from 'primeng/multiselect';
         DropdownModule,
         ReactiveFormsModule,
         MultiSelectModule,
+        DialogModule,
     ],
     templateUrl: './calisan.component.html',
     styleUrls: ['./calisan.component.scss'],
@@ -87,20 +89,47 @@ export class CalisanComponent {
         });
     }
 
-    // calisanEditMethod(e: any) {
-    //     e.hizmetler.map((s) => {
-    //         let ss = {
-    //             id: s.id,
-    //             items: s.hizmetler,
-    //         };
-    //         this.selectionHizmet.push(ss);
-    //     });
-    //     this.dialogShow = true;
+    dialogOpen() {
+        this.dialogShow = true;
+        this.calisanForm.reset();
+    }
+    calisanEditMethod(e: any) {
+        e.hizmetler.map((hizmet) => {
+            this.selectionHizmet.push(hizmet.id);
+        });
 
-    //     console.log(e);
-    // }
+        this.calisanForm.patchValue({
+            id: e.calisanId,
+            calisanAdi: e.calisanAdi,
+            calisanCinsiyet: e.calisanCinsiyet,
+            calisanEmail: e.calisanEmail,
+            calisanSoyadi: e.calisanSoyad,
+            calisanTelNo: e.calisanTelNo,
+            calisanUnvan: e.calisanUnvan,
+        });
+        this.editStatus = true;
+        this.dialogShow = true;
+    }
+
     save() {
         if (this.editStatus) {
+            let data: ICalisan = {
+                hizmetIds: this.selectionHizmet,
+                calisanAdi: this.calisanForm.value.calisanAdi,
+                calisanCinsiyet: this.calisanForm.value.calisanCinsiyet,
+                calisanSoyad: this.calisanForm.value.calisanSoyadi,
+                calisanEmail: this.calisanForm.value.calisanEmail,
+                calisanTelNo: this.calisanForm.value.calisanTelNo,
+                calisanUnvan: this.calisanForm.value.calisanUnvan,
+                id: this.calisanForm.value.id,
+            };
+            this.calisanService
+                .put('update/' + data.id, data)
+                .subscribe((s) => {
+                    this.getAll();
+                    this.dialogShow = false;
+                    this.calisanForm.reset();
+                });
         } else {
             let data: ICalisan = {
                 hizmetIds: this.selectionHizmet,
@@ -115,6 +144,8 @@ export class CalisanComponent {
 
             this.calisanService.post('create', data).subscribe((s) => {
                 this.getAll();
+                this.dialogShow = false;
+                this.calisanForm.reset();
             });
         }
     }

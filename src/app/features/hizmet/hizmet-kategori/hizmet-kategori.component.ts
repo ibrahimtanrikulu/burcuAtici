@@ -11,6 +11,7 @@ import { HizmetKategoriService } from 'src/app/core/services/hizmet/hizmet-kateg
 import { HizmetService } from 'src/app/core/services/hizmet/hizmet.service';
 import { DialogComponent } from 'src/app/shared/components/dialog/dialog.component';
 
+import { DialogModule } from 'primeng/dialog';
 @Component({
     selector: 'app-hizmet-kategori',
     standalone: true,
@@ -22,6 +23,7 @@ import { DialogComponent } from 'src/app/shared/components/dialog/dialog.compone
         ButtonModule,
         DialogComponent,
         ReactiveFormsModule,
+        DialogModule,
     ],
     templateUrl: './hizmet-kategori.component.html',
     styleUrls: ['./hizmet-kategori.component.scss'],
@@ -55,6 +57,16 @@ export class HizmetKategoriComponent {
             this.hizmetKategori = s;
         });
     }
+
+    dialogHizmet() {
+        this.hizmetShow = true;
+        this.HizmetForm.reset();
+    }
+    dialogHizmetKategori() {
+        this.hizmetkategoriShow = true;
+        this.HizmetKategoriForm.reset();
+    }
+
     hizmetKategoriAdd() {
         if (this.hizmetkategoriStatus == true) {
             this.hizmetKategoriService
@@ -64,6 +76,10 @@ export class HizmetKategoriComponent {
                 )
                 .subscribe((s) => {
                     this.getAll();
+                    this.HizmetForm.reset();
+                    this.HizmetKategoriForm.reset();
+                    this.hizmetkategoriShow = false;
+                    this.hizmetShow = false;
                 });
             this.hizmetkategoriStatus = false;
         } else {
@@ -71,6 +87,10 @@ export class HizmetKategoriComponent {
                 .post('create', this.HizmetKategoriForm.value)
                 .subscribe((s) => {
                     this.getAll();
+                    this.HizmetForm.reset();
+                    this.HizmetKategoriForm.reset();
+                    this.hizmetkategoriShow = false;
+                    this.hizmetShow = false;
                 });
         }
         this.hizmetkategoriShow = false;
@@ -84,6 +104,10 @@ export class HizmetKategoriComponent {
                 )
                 .subscribe((s) => {
                     this.getAll();
+                    this.HizmetForm.reset();
+                    this.HizmetKategoriForm.reset();
+                    this.hizmetkategoriShow = false;
+                    this.hizmetShow = false;
                 });
             this.hizmetEditStatus = false;
         } else {
@@ -94,6 +118,10 @@ export class HizmetKategoriComponent {
                 )
                 .subscribe((s) => {
                     this.getAll();
+                    this.HizmetForm.reset();
+                    this.HizmetKategoriForm.reset();
+                    this.hizmetkategoriShow = false;
+                    this.hizmetShow = false;
                 });
         }
         this.hizmetShow = false;

@@ -9,6 +9,7 @@ import { HizmetKategoriComponent } from './features/hizmet/hizmet-kategori/hizme
 import { YeniHizmetOlusturComponent } from './features/hizmet/yeni-hizmet-olustur/yeni-hizmet-olustur.component';
 import { CalisanComponent } from './features/calisan/calisan.component';
 import { AuthGuard } from './core/guards/auth.guard';
+import { RandevuComponent } from './features/randevu/randevu.component';
 
 @NgModule({
     imports: [
@@ -23,6 +24,11 @@ import { AuthGuard } from './core/guards/auth.guard';
                     component: AppLayoutComponent,
                     canActivate: [AuthGuard],
                     children: [
+                        {
+                            path: 'randevu',
+                            component: RandevuComponent,
+                            canActivate: [AuthGuard],
+                        },
                         {
                             path: 'musteri',
                             component: MusteriComponent,

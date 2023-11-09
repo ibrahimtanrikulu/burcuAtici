@@ -17,6 +17,7 @@ import {
     FormsModule,
     ReactiveFormsModule,
 } from '@angular/forms';
+import { DialogModule } from 'primeng/dialog';
 @Component({
     selector: 'app-musteri',
     standalone: true,
@@ -33,6 +34,7 @@ import {
         DropdownModule,
         FormsModule,
         ReactiveFormsModule,
+        DialogModule,
     ],
     templateUrl: './musteri.component.html',
     styleUrls: ['./musteri.component.scss'],
@@ -55,7 +57,7 @@ export class MusteriComponent {
         musteriTelNo2: new FormControl(''),
         musteriEmail: new FormControl(''),
         musteriDogumGunu: new FormControl(''),
-        // musteriKaraListe: new FormControl(''),
+        musteriKaraListe: new FormControl(false),
     });
 
     constructor(private musteriServise: MusteriService) {
@@ -65,6 +67,11 @@ export class MusteriComponent {
         this.musteriServise.get('list').subscribe((s: any) => {
             this.customers = s;
         });
+    }
+
+    dialogOpen() {
+        this.dialogShow = true;
+        this.musteriForm.reset();
     }
     musteriAdd() {
         if (this.musteriEdit) {
@@ -76,12 +83,16 @@ export class MusteriComponent {
                 )
                 .subscribe((s) => {
                     this.getAll();
+                    this.musteriForm.reset();
+                    this.dialogShow = false;
                 });
         } else {
             this.musteriServise
                 .post('create', this.musteriForm.value)
                 .subscribe((s) => {
                     this.getAll();
+                    this.musteriForm.reset();
+                    this.dialogShow = false;
                 });
         }
     }

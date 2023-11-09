@@ -1,5 +1,9 @@
-import { NgModule, isDevMode } from '@angular/core';
-import { HashLocationStrategy, LocationStrategy } from '@angular/common';
+import { LOCALE_ID, NgModule, isDevMode } from '@angular/core';
+import {
+    HashLocationStrategy,
+    LocationStrategy,
+    registerLocaleData,
+} from '@angular/common';
 import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { ServiceWorkerModule } from '@angular/service-worker';
@@ -13,9 +17,11 @@ import { HomeComponent } from './features/home/home.component';
 import { MusteriComponent } from './features/musteri/musteri.component';
 import { UserComponent } from './features/user/user.component';
 import { JwtModule } from '@auth0/angular-jwt';
+import localeTr from '@angular/common/locales/tr';
 export function tokenGetter() {
     return localStorage.getItem('t');
 }
+registerLocaleData(localeTr);
 @NgModule({
     declarations: [AppComponent],
     imports: [
@@ -44,6 +50,7 @@ export function tokenGetter() {
     providers: [
         { provide: LocationStrategy, useClass: HashLocationStrategy },
         { provide: apiUrl, useValue: '' },
+        { provide: LOCALE_ID, useValue: 'tr' },
     ],
     bootstrap: [AppComponent],
 })

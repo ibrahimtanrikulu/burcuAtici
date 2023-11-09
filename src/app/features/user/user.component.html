@@ -9,31 +9,52 @@
             </div>
             <div class="col-12 md:col-6">
                 <span class="p-float-label">
-                    <input pInputText id="soyad" formControlName="kullaniciSoyadi" />
+                    <input
+                        pInputText
+                        id="soyad"
+                        formControlName="kullaniciSoyadi"
+                    />
                     <label htmlFor="soyad">Soyad</label>
                 </span>
             </div>
             <div class="col-12 md:col-6">
                 <span class="p-float-label">
-                    <p-inputMask mask="(999) 999-9999" id="telefon" formControlName="kullaniciTelNo"></p-inputMask>
+                    <input
+                        pInputText
+                        id="telefon"
+                        formControlName="kullaniciTelNo"
+                    />
                     <label htmlFor="telefon">Telefon</label>
                 </span>
             </div>
             <div class="col-12 md:col-6">
                 <span class="p-float-label">
-                    <input pInputText id="eposta" formControlName="kullaniciEmail" />
+                    <input
+                        pInputText
+                        id="eposta"
+                        formControlName="kullaniciEmail"
+                    />
                     <label htmlFor="eposta">Eposta</label>
                 </span>
             </div>
             <div class="col-12 md:col-6">
                 <span class="p-float-label">
-                    <input pInputText id="sifre" formControlName="kullaniciSifre" />
+                    <input
+                        pInputText
+                        id="sifre"
+                        formControlName="kullaniciSifre"
+                    />
                     <label htmlFor="sifre">Sifre</label>
                 </span>
             </div>
         </div>
-        <div style="display: flex;width: 100%;justify-content: flex-end;">
-            <p-button type="button" severity="secondery" label="kaydet" (onClick)="userSave()" />
+        <div style="display: flex; width: 100%; justify-content: flex-end">
+            <p-button
+                type="button"
+                severity="secondery"
+                label="kaydet"
+                (onClick)="userSave()"
+            />
         </div>
     </p-card>
 </form>

@@ -29,6 +29,7 @@ export class AppMenuComponent implements OnInit {
                     {
                         label: 'Randevu',
                         icon: 'pi pi-fw pi-home',
+                        routerLink: ['/randevu']
                     },
                 ],
             },
