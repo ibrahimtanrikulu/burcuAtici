@@ -92,6 +92,7 @@
                                 pRipple
                                 class="p-button-danger"
                                 icon="pi pi-times"
+                                (click)="delete(randevu.id)"
                             ></button>
                         </div>
                     </div>
@@ -113,7 +114,7 @@
                 <span class="p-float-label">
                     <p-dropdown
                         optionLabel="yeniHizmetAdi"
-                        optionValue="calisanIds"
+                        optionValue="id"
                         [style]="{ width: '100%' }"
                         [options]="hizmetList"
                         placeholder="hizmet"

@@ -17,9 +17,9 @@
         <ng-template pTemplate="header">
             <tr>
                 <th style="width: 5rem"></th>
-                <th pSortableColumn="id">
+                <!-- <th pSortableColumn="id">
                     id <p-sortIcon field="id"></p-sortIcon>
-                </th>
+                </th> -->
                 <th pSortableColumn="hizmetKategoriAdi">
                     Hizmet Kategori Ad
                     <p-sortIcon field="hizmetKategoriAdi"></p-sortIcon>
@@ -44,7 +44,7 @@
                         "
                     ></button>
                 </td>
-                <td>{{ hizmet.id }}</td>
+                <!-- <td>{{ hizmet.id }}</td> -->
                 <td>{{ hizmet.hizmetKategoriAdi }}</td>
                 <td>
                     <button
@@ -89,10 +89,10 @@
                             </ng-template>
                             <ng-template pTemplate="header">
                                 <tr>
-                                    <th pSortableColumn="id">
+                                    <!-- <th pSortableColumn="id">
                                         id
                                         <p-sortIcon field="price"></p-sortIcon>
-                                    </th>
+                                    </th> -->
                                     <th pSortableColumn="hizmetAdi">
                                         Hizmet Adı
                                         <p-sortIcon
@@ -105,7 +105,7 @@
                             </ng-template>
                             <ng-template pTemplate="body" let-hizmet>
                                 <tr>
-                                    <td>{{ hizmet.id }}</td>
+                                    <!-- <td>{{ hizmet.id }}</td> -->
                                     <td>{{ hizmet.hizmetAdi }}</td>
                                     <td>
                                         <button

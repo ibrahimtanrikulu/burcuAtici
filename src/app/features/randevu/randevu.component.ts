@@ -41,7 +41,7 @@ export class RandevuComponent {
     musteriList: IMusteri[] = [];
     calisanList: ICalisan[] = [];
 
-    selectCalisanIDs: string;
+    selectCalisanIDs: number;
     calisanIDList: any[] = [];
     selectCalisan: any;
     selectMusteri: any;
@@ -63,13 +63,15 @@ export class RandevuComponent {
             this.hizmetList = s;
         });
         this.musteriService.get('list').subscribe((s: any) => {
-            this.musteriList = s;
+            s.map((ss) => {
+                if (ss.musteriKaraListe != true) {
+                    this.musteriList.push(ss);
+                }
+            });
         });
 
         this.calisanSerice.get('list').subscribe((s: any) => {
             this.calisanList = s;
-            console.log(s);
-            
         });
         this.randevuService.get('list').subscribe((s: any) => {
             this.randevuList = s;
@@ -81,9 +83,15 @@ export class RandevuComponent {
     }
 
     selectHizmetMethod() {
+        let data;
+        this.hizmetList.map((m) => {
+            if (m.id == this.selectCalisanIDs) {
+                data = m;
+            }
+        });
         this.calisanIDList = [];
         if (this.selectCalisanIDs != undefined) {
-            let result = JSON.parse(this.selectCalisanIDs);
+            let result = JSON.parse(data.calisanIds);
             result.map((r) => {
                 this.calisanList.map((c: any) => {
                     if (c.calisanId == r) {
@@ -132,11 +140,13 @@ export class RandevuComponent {
     save() {
         let data: IRandevu = {
             calisan: this.selectCalisan,
-            hizmet: 1,
+            hizmet: this.selectCalisanIDs,
             id: null,
             musteri: this.selectMusteri,
             randevuTarih: this.selectDate,
         };
+
+        console.log(data, 'data');
 
         this.randevuService.post('create', data).subscribe((s) => {
             this.getAll();

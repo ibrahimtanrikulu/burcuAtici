@@ -119,15 +119,9 @@ export class YeniHizmetOlusturComponent {
     }
 
     save() {
-        let stringCalisan = '[';
-        this.selectCalisanList.map((c) => {
-            if (c.length == -1) {
-                stringCalisan += c;
-            } else {
-                stringCalisan += c + ',';
-            }
-        });
-        stringCalisan += ']';
+        let stringCalisan = '[' + this.selectCalisanList.join(',') + ']';
+        console.log(stringCalisan);
+
         let data: IYeniHizmet = {
             calisanIds: stringCalisan,
             hizmetID: this.selectHizmet,
