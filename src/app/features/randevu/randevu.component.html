@@ -37,69 +37,39 @@
         ></button>
         <h5>Tarih: {{ selectedDate | date : "fullDate" }}</h5>
     </div>
-    <ul class="custom-list-group">
-        <ng-container *ngFor="let randevu of randevuList">
-            <ng-container
-                *ngIf="
-                    randevu.randevuTarih.getFullYear() ==
-                        selectedDate.getFullYear() &&
-                    randevu.randevuTarih.getMonth() ==
-                        selectedDate.getMonth() &&
-                    randevu.randevuTarih.getDate() == selectedDate.getDate()
-                "
-            >
-                <li class="custom-list-group-item">
-                    <div class="grid">
-                        <div class="col-12 md:col-3">
-                            <b>Tarihi:</b>
-                            {{ randevu.randevuTarih | date : "medium" }}
-                        </div>
-                        <div class="col-12 md:col-3">
-                            <ng-container *ngFor="let calisan of calisanList">
-                                <ng-container
-                                    *ngIf="calisan.calisanId == randevu.calisan"
-                                >
-                                    <b>Çalışan:</b>
-                                    {{ calisan.calisanAdi }}
-                                    {{ calisan.calisanSoyad }}
-                                </ng-container>
-                            </ng-container>
-                        </div>
-                        <div class="col-12 md:col-3">
-                            <ng-container *ngFor="let hizmet of hizmetList">
-                                <ng-container
-                                    *ngIf="hizmet.id == randevu.hizmet"
-                                >
-                                    <b>Hizmet:</b>
-                                    {{ hizmet.yeniHizmetAdi }}
-                                </ng-container>
-                            </ng-container>
-                        </div>
-                        <div class="col-12 md:col-3">
-                            <ng-container *ngFor="let musteri of musteriList">
-                                <ng-container
-                                    *ngIf="musteri.id == randevu.musteri"
-                                >
-                                    <b>Müsteri:</b>
-                                    {{ musteri.musteriAdi }}
-                                    {{ musteri.musteriSoyadi }}
-                                </ng-container>
-                            </ng-container>
-                        </div>
-                        <div class="col-12 md:col-3">
-                            <button
-                                pButton
-                                pRipple
-                                class="p-button-danger"
-                                icon="pi pi-times"
-                                (click)="delete(randevu.id)"
-                            ></button>
-                        </div>
+
+    <span class="p-float-label my-4">
+        <p-dropdown
+            optionLabel="calisanAdi"
+            optionValue="calisanId"
+            [style]="{ width: '100%' }"
+            [options]="calisanList"
+            placeholder="Calışlan"
+            [(ngModel)]="selectWorkerValue"
+            (click)="selectWorker()"
+        ></p-dropdown>
+        <label>Çalışanlar</label>
+    </span>
+
+    <div>
+        <div class="custom-list-group">
+            <ul class="clock-container">
+                <li
+                    class="custom-list-group-item"
+                    *ngFor="let hour of getSelectedDayHours()"
+                >
+                    <div (click)="selectOclok(hour)">
+                        {{ hour }}:00 - {{ hour + 1 }}:00
                     </div>
+                    <ng-container *ngFor="let item of selectCalisanRandevu">
+                        <div *ngIf="item.randevuTarih.getHours() == hour">
+                            {{ item | json }}
+                        </div>
+                    </ng-container>
                 </li>
-            </ng-container>
-        </ng-container>
-    </ul>
+            </ul>
+        </div>
+    </div>
 </p-card>
 
 <p-dialog
@@ -156,8 +126,18 @@
                     [showWeek]="true"
                     [style]="{ width: '100%' }"
                     [(ngModel)]="selectDate"
-                    [showTime]="true"
                 ></p-calendar>
+            </div>
+            <div class="col-12">
+                <span class="p-float-label">
+                    <p-dropdown
+                        placeholder="Randevu saati"
+                        [options]="selectedClock"
+                        [(ngModel)]="selectClock"
+                        [style]="{ width: '100%' }"
+                    ></p-dropdown>
+                    <label>Randevu saati</label>
+                </span>
             </div>
         </div>
         <div style="display: flex; width: 100%; justify-content: flex-end">

@@ -1,9 +1,8 @@
 .custom-list-group {
-    list-style: none;
     padding: 0;
     margin: 0;
+    display: flex;
 }
-
 .custom-list-header-item {
     background-color: #0d6efb;
     color: white;
@@ -11,16 +10,29 @@
     margin-bottom: 5px;
     border-radius: 5px;
 }
-
 .custom-list-group-item {
     background-color: #f2f2f2;
-    padding: 10px 15px;
-    margin-bottom: 5px;
-    border-radius: 5px;
-    margin-left: 10px;
-    margin-right: 10px;
+    border-bottom: 1px solid #0d6efb;
+    border-top-right-radius: 5px;
+    border-top-left-radius: 5px;
+    padding: 5px;
 }
-
 .custom-list-group-item:hover {
     background-color: #e0e0e0;
+}
+.clock-container {
+    width: 100%;
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.worker-container {
+    width: 100%;
+    
+    display: flex;
+    flex-wrap: nowrap;
+    div {
+        width: 100%;
+    }
 }
