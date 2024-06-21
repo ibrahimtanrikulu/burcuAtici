@@ -8,10 +8,6 @@
         responsiveLayout="stack"
         [rows]="10"
         [showCurrentPageReport]="true"
-        [rowsPerPageOptions]="[10, 25, 50]"
-        [paginator]="true"
-        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
-        [filterDelay]="0"
         [globalFilterFields]="[
             'calisanAdi',
             'calisanSoyad',
@@ -20,6 +16,11 @@
             'calisanTelNo',
             'calisanEmail'
         ]"
+        [rowsPerPageOptions]="[10, 25, 50]"
+        [paginator]="true"
+        currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+        [filterDelay]="0"
+        
     >
         <ng-template pTemplate="caption">
             <div class="table-header flex">
