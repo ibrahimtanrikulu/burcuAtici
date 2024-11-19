@@ -1,0 +1,36 @@
+name: Angular CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      # Kodun Depodan Çekilmesi
+      - name: Check out repository
+        uses: actions/checkout@v3
+
+      # Node.js Ortamının Kurulması
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      # Proje Bağımlılıklarının Kurulması
+      - name: Install Dependencies
+        run: npm install
+
+      # Angular Projesinin Test Edilmesi
+      - name: Run Tests
+        run: npm test -- --watch=false --no-progress
+
+      # Angular Projesinin Derlenmesi
+      - name: Build Angular Application
+        run: npm run build -- --prod
