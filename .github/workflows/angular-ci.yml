@@ -42,4 +42,4 @@ jobs:
             # 6. S3'ye Yükleme
             - name: Deploy to S3
               run: |
-                  aws s3 sync dist/your-project-name s3://devops-old-version-app-bucket --delete
+                  aws s3 sync dist/sakai-ng s3://devops-old-version-app-bucket --delete
