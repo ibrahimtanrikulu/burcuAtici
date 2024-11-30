@@ -32,21 +32,23 @@ jobs:
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v2
 
-            # Log in to Docker Hub or AWS ECR
-            - name: Log in to Amazon ECR
-              id: ecr-login
-              uses: aws-actions/amazon-ecr-login@v1
+            # Log in to Docker Hub
+            - name: Log in to Docker Hub
+              uses: docker/login-action@v2
+              with:
+                  username: ${{ secrets.DOCKER_USERNAME }}
+                  password: ${{ secrets.DOCKER_PASSWORD }}
 
             # Build Docker image
             - name: Build Docker Image
               run: |
                   docker build -t angular-app:latest .
 
-            # Tag and push Docker image to ECR
+            # Tag and push Docker image to Docker Hub
             - name: Tag and Push Docker image
               run: |
-                  docker tag angular-app:latest ${{ steps.ecr-login.outputs.registry }}/angular-app:latest
-                  docker push ${{ steps.ecr-login.outputs.registry }}/angular-app:latest
+                  docker tag angular-app:latest ${{ secrets.DOCKER_USERNAME }}/angular-app:latest
+                  docker push ${{ secrets.DOCKER_USERNAME }}/angular-app:latest
 
     deploy:
         runs-on: ubuntu-latest
@@ -84,4 +86,4 @@ jobs:
                   KOPS_STATE_STORE: ${{ secrets.KOPS_STATE_STORE }}
               run: |
                   kops export kubecfg --name mycluster.k8s.local
-                  kubectl set image deployment/angular-app-deployment angular-app=${{ steps.ecr-login.outputs.registry }}/angular-app:latest
+                  kubectl set image deployment/angular-app-deployment angular-app=${{ secrets.DOCKER_USERNAME }}/angular-app:latest
