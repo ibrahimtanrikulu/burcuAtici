@@ -85,5 +85,5 @@ jobs:
               env:
                   KOPS_STATE_STORE: ${{ secrets.KOPS_STATE_STORE }}
               run: |
-                  kops export kubecfg --name mycluster.k8s.local
+                  kops export kubecfg --name myk8scluster.k8s.local
                   kubectl set image deployment/angular-app-deployment angular-app=${{ secrets.DOCKER_USERNAME }}/angular-app:latest
