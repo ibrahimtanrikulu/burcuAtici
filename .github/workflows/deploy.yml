@@ -80,16 +80,23 @@ jobs:
                   chmod +x ./kops
                   sudo mv ./kops /usr/local/bin/
 
-            # Export Kubeconfig and deploy to Kubernetes
+            # Export Kubeconfig and deploy to Kubernetes with retry logic
             - name: Deploy to Kubernetes
               env:
                   KOPS_STATE_STORE: ${{ secrets.KOPS_STATE_STORE }}
               run: |
-                  kops export kubecfg --name myk8scluster.k8s.local --state $KOPS_STATE_STORE
+                  RETRY=0
+                  until [ $RETRY -ge 5 ]
+                  do
+                      kops export kubecfg --name myk8scluster.k8s.local --state $KOPS_STATE_STORE && break
+                      RETRY=$((RETRY+1))
+                      echo "Retrying kops export kubecfg... ($RETRY/5)"
+                      sleep 5
+                  done
                   export KUBECONFIG=$HOME/.kube/config
                   kubectl set image deployment/angular-app-deployment angular-app=${{ secrets.DOCKER_USERNAME }}/angular-app:latest
 
             # Optional: Grant necessary permissions if RBAC is enabled
             - name: Grant cluster-admin privileges
               run: |
-                  kubectl create clusterrolebinding admin-binding --clusterrole=cluster-admin --user={{ secrets.AWS_ACCESS_KEY_ID }} || true
+                  kubectl create clusterrolebinding admin-binding --clusterrole=cluster-admin --user=${{ secrets.AWS_ACCESS_KEY_ID }} || true
