@@ -10,7 +10,7 @@ RUN npm install
 
 # Uygulamayı build et
 COPY . .
-RUN npm run build --configuration production
+RUN npm run build -- --configuration=production --project=sakai-ng
 
 # Build edilen dosyaları sunmak için Nginx image kullan
 FROM nginx:alpine
