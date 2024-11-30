@@ -80,14 +80,13 @@ jobs:
                   chmod +x ./kops
                   sudo mv ./kops /usr/local/bin/
 
-            # Export Kubeconfig and deploy to Kubernetes with authentication setup
+            # Export Kubeconfig and deploy to Kubernetes without AWS EKS command
             - name: Deploy to Kubernetes
               env:
                   KOPS_STATE_STORE: ${{ secrets.KOPS_STATE_STORE }}
               run: |
                   kops export kubecfg --name myk8scluster.k8s.local --state $KOPS_STATE_STORE
                   export KUBECONFIG=$HOME/.kube/config
-                  aws eks update-kubeconfig --name myk8scluster.k8s.local --region us-east-1
                   kubectl set image deployment/angular-app-deployment angular-app=${{ secrets.DOCKER_USERNAME }}/angular-app:latest
 
             # Optional: Grant necessary permissions if RBAC is enabled
