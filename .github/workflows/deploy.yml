@@ -68,7 +68,7 @@ jobs:
             # SSH into the EC2 instance and run commands
             - name: Deploy to Kops Cluster on EC2
               run: |
-                  ssh -o StrictHostKeyChecking=no ec2-user@3.84.151.77 << 'EOF'
+                  ssh -o StrictHostKeyChecking=no ubuntu@3.84.151.77 << 'EOF'
                   export KOPS_STATE_STORE=s3://ibrahim-tanrikulu-kops-bucket
                   kops export kubecfg --name myk8scluster.k8s.local --state $KOPS_STATE_STORE
                   kubectl set image deployment/angular-app-deployment angular-app=${{ secrets.DOCKER_USERNAME }}/angular-app:latest
