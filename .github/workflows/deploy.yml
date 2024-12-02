@@ -59,26 +59,17 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v3
 
-            # Configure AWS credentials
-            - name: Configure AWS Credentials
-              uses: aws-actions/configure-aws-credentials@v1
+            # Add SSH private key for EC2 access
+            - name: Add SSH key
+              uses: webfactory/ssh-agent@v0.5.3
               with:
-                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                  aws-region: us-east-1
+                  ssh-private-key: ${{ secrets.EC2_SSH_KEY }}
 
-            # Export Kubeconfig using Kops
-            - name: Export Kubeconfig
-              env:
-                  KOPS_STATE_STORE: ${{ secrets.KOPS_STATE_STORE }}
+            # SSH into the EC2 instance and run commands
+            - name: Deploy to Kops Cluster on EC2
               run: |
+                  ssh -o StrictHostKeyChecking=no ec2-user@<EC2_INSTANCE_PUBLIC_IP> << 'EOF'
+                  export KOPS_STATE_STORE=s3://my-kops-state-store
                   kops export kubecfg --name myk8scluster.k8s.local --state $KOPS_STATE_STORE
-
-            # Verify Kubernetes Connection
-            - name: Verify Kubernetes Connection
-              run: kubectl get nodes
-
-            # Deploy to Kubernetes
-            - name: Deploy to Kubernetes
-              run: |
                   kubectl set image deployment/angular-app-deployment angular-app=${{ secrets.DOCKER_USERNAME }}/angular-app:latest
+                  EOF
