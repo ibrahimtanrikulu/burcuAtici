@@ -59,6 +59,26 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v3
 
-            # Simple Test Step for Deployment
-            - name: Test Deployment Step
-              run: echo "Deployment step is being tested. No changes are made to the cluster yet."
+            # Configure AWS credentials
+            - name: Configure AWS Credentials
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  aws-region: us-east-1
+
+            # Export Kubeconfig using Kops
+            - name: Export Kubeconfig
+              env:
+                  KOPS_STATE_STORE: ${{ secrets.KOPS_STATE_STORE }}
+              run: |
+                  kops export kubecfg --name myk8scluster.k8s.local --state $KOPS_STATE_STORE
+
+            # Verify Kubernetes Connection
+            - name: Verify Kubernetes Connection
+              run: kubectl get nodes
+
+            # Deploy to Kubernetes
+            - name: Deploy to Kubernetes
+              run: |
+                  kubectl set image deployment/angular-app-deployment angular-app=${{ secrets.DOCKER_USERNAME }}/angular-app:latest
