@@ -59,37 +59,6 @@ jobs:
             - name: Checkout repository
               uses: actions/checkout@v3
 
-            # Configure AWS credentials
-            - name: Configure AWS Credentials
-              uses: aws-actions/configure-aws-credentials@v1
-              with:
-                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-                  aws-region: us-east-1
-
-            # Set up kubectl
-            - name: Setup kubectl
-              uses: azure/setup-kubectl@v3
-              with:
-                  version: "v1.23.6"
-
-            # Set up Kops
-            - name: Setup Kops
-              run: |
-                  curl -Lo kops https://github.com/kubernetes/kops/releases/download/v1.23.0/kops-linux-amd64
-                  chmod +x ./kops
-                  sudo mv ./kops /usr/local/bin/
-
-            # Export Kubeconfig and deploy to Kubernetes without AWS EKS command
-            - name: Deploy to Kubernetes
-              env:
-                  KOPS_STATE_STORE: ${{ secrets.KOPS_STATE_STORE }}
-              run: |
-                  kops export kubecfg --name myk8scluster.k8s.local --state $KOPS_STATE_STORE
-                  export KUBECONFIG=$HOME/.kube/config
-                  kubectl set image deployment/angular-app-deployment angular-app=${{ secrets.DOCKER_USERNAME }}/angular-app:latest
-
-            # Optional: Grant necessary permissions if RBAC is enabled
-            - name: Grant cluster-admin privileges
-              run: |
-                  kubectl create clusterrolebinding admin-binding --clusterrole=cluster-admin --user=${{ secrets.AWS_ACCESS_KEY_ID }} || true
+            # Simple Test Step for Deployment
+            - name: Test Deployment Step
+              run: echo "Deployment step is being tested. No changes are made to the cluster yet."
