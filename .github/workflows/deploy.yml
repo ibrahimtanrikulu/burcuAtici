@@ -71,5 +71,7 @@ jobs:
                   ssh -o StrictHostKeyChecking=no ubuntu@3.84.151.77 << 'EOF'
                   export KOPS_STATE_STORE=s3://ibrahim-tanrikulu-kops-bucket
                   kops export kubecfg --name myk8scluster.k8s.local --state $KOPS_STATE_STORE
+                  export KUBECONFIG=$HOME/.kube/config
+                  kubectl create clusterrolebinding admin-binding --clusterrole=cluster-admin --user=ubuntu || true
                   kubectl set image deployment/angular-app-deployment angular-app=${{ secrets.DOCKER_USERNAME }}/angular-app:latest
                   EOF
