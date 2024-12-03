@@ -1,19 +1,69 @@
 name: Push Notification to Slack
 
-on: 
-  push:
-    branches:
-      - main  # veya izlemek istediğiniz başka bir branch
+on:
+    push:
+        branches:
+            - main # veya izlemek istediğiniz başka bir branch
+
 jobs:
-  notify:
-    runs-on: ubuntu-latest
+    notify:
+        runs-on: ubuntu-latest
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v2
 
-      - name: Send Slack Notification
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-        run: |
-          curl -X POST -H 'Content-type: application/json' --data '{"text":"Yeni bir push yapıldı!"}' $SLACK_WEBHOOK_URL
+            - name: Send Slack Notification
+              env:
+                  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+              run: |
+                  commit_message=$(git log -1 --pretty=%B)
+                  author_name=$(git log -1 --pretty=%an)
+                  commit_hash=$(git rev-parse --short HEAD)
+                  repo_name=${{ github.repository }}
+                  branch_name=${{ github.ref_name }}
+                  timestamp=$(date -u)
+                  message_payload=$(cat <<EOF
+                  {
+                    "blocks": [
+                      {
+                        "type": "section",
+                        "text": {
+                          "type": "mrkdwn",
+                          "text": "*Yeni bir push yapıldı!*"
+                        }
+                      },
+                      {
+                        "type": "section",
+                        "fields": [
+                          {
+                            "type": "mrkdwn",
+                            "text": "*Repository:*\n$repo_name"
+                          },
+                          {
+                            "type": "mrkdwn",
+                            "text": "*Branch:*\n$branch_name"
+                          },
+                          {
+                            "type": "mrkdwn",
+                            "text": "*Commit Hash:*\n$commit_hash"
+                          },
+                          {
+                            "type": "mrkdwn",
+                            "text": "*Author:*\n$author_name"
+                          },
+                          {
+                            "type": "mrkdwn",
+                            "text": "*Commit Message:*\n$commit_message"
+                          },
+                          {
+                            "type": "mrkdwn",
+                            "text": "*Timestamp:*\n$timestamp"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                  EOF
+                  )
+                  curl -X POST -H 'Content-type: application/json' --data "$message_payload" $SLACK_WEBHOOK_URL
