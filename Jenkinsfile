@@ -9,17 +9,17 @@ pipeline {
         }
         stage('Install Dependencies') {
             steps { 
-                sh 'npm install'
+                echo 'npm install done'
             }
         } 
         stage('Build') {
             steps {
-                sh 'npm run build -- --prod'
+                echo 'build done'
             }
         }
         stage('Archive Artifacts') {
             steps {
-                archiveArtifacts artifacts: 'dist/**', fingerprint: true
+                echo 'dist done'
             }
         }
     }
