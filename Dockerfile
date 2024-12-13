@@ -1,12 +1,11 @@
-FROM node:16 as build
-WORKDIR /app
-COPY package*.json ./
-RUN npm install
-COPY . .
-RUN npm run build --prod
-
+# Base image
 FROM nginx:alpine
-COPY --from=build /app/dist/sakai-ng /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+
+# Copy build output to nginx's html folder
+COPY dist/<your-angular-project-name> /usr/share/nginx/html
+
+# Expose port 80
 EXPOSE 80
+
+# Start Nginx server
 CMD ["nginx", "-g", "daemon off;"]
