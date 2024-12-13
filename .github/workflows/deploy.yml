@@ -25,7 +25,7 @@ jobs:
                   username: ec2-user
                   key: ${{ secrets.EC2_KEY }}
                   script: |
-                      cd /home/ec2-user/<your-angular-project>
+                      cd /home/ec2-user/sakai-ng
                       git pull origin main
                       npm install
                       ng build --prod
